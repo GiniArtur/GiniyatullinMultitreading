@@ -15,29 +15,29 @@ public class Main {
         F operation(T1 t1, T2 t2);
     }
 
-    private static final Function<Integer, Integer, Integer> SUM_VALUE = (i1, i2) -> getSumValue(i1, i2);
-    private static final Function<Integer, Integer, Integer> MIN_VALUE = (i1, i2) -> getMinValue(i1, i2);
-    private static final Function<Integer, Integer, Integer> MAX_VALUE = (i1, i2) -> getMaxValue(i1, i2);
+    private static final Function<Integer, Integer, Integer> SUM_VALUE = (i1, i2) -> getSumValue(i1, i2);  //значение суммы элементов
+    private static final Function<Integer, Integer, Integer> MIN_VALUE = (i1, i2) -> getMinValue(i1, i2);   // Получаем минимальный элемент
+    private static final Function<Integer, Integer, Integer> MAX_VALUE = (i1, i2) -> getMaxValue(i1, i2);   // Получаем максимальный элемент
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        int bound = 500;// размер массива
+        int bound = 500;                             // размер массива
         int[] number = new int[bound];
         for (int i = 0; i < bound; i++) {
-            // заполняем массив случайными числами
+                                                    // заполняем массив случайными числами
             int num = new Random().nextInt(bound);
             number[i] = num;
 //            System.out.println("num=" + num);
 
         }
-        int size = (int) bound / 2;
-        int[] num1 = new int[size];
-        int[] num2 = new int[size];
+        int size = (int) bound / 2;           // Размер - половина массива - разделили на два массива
+        int[] num1 = new int[size];           // первый массив из 250 значений
+        int[] num2 = new int[size];           // второй массив из 250 значений
         for (int i = 0; i < size; i++) {
-            num1[i] = number[i];
-            num2[i] = number[size + i];
+            num1[i] = number[i];              // Заполнили первый массив
+            num2[i] = number[size + i];       // Заполнили второй массив
         }
 
 //         Задача 1. Параллельный поиск в массиве
@@ -134,8 +134,8 @@ public class Main {
         */
         // проверяем условие умноженияы
         if (array1.length == array2[0].length) {
-            // если условие выполняется, выполняем перемножение
-            // список потоков = количество строк первого массива
+                                        // если условие выполняется, выполняем перемножение
+                                        // список потоков = количество строк первого массива
             int[][] resultArray = new int[array1.length][];// результат вычисления
             ArrayList<MultiplyValueThread> threadList = new ArrayList<>(array1.length);
             for (int[] rowArray : array1) {
@@ -165,7 +165,7 @@ public class Main {
         /*
         Вводим путь к файлу. Проверяем его существование. Создаём два потока.
         Задаём для них условия отбора чётных или нечётных чисел. В потоках
-        создаются два файла, имена которых совпадают с исодным с добавлением
+        создаются два файла, имена которых совпадают с исходным с добавлением
         суффикса ODD для нечётных чисел и EVEN для чётных чисел.
         Файл передаём в качестве параметра в созданные потоки, в которых и
         происходит разбор содержимого файла
@@ -174,7 +174,7 @@ public class Main {
             BufferedReader inp = new BufferedReader(new InputStreamReader(System.in, "Windows-1251"));
             System.out.println("Введите путь к файлу:");
             String filename = inp.readLine();
-//            System.out.println("filename=" + filename);
+            System.out.println("filename=" + filename);
             File file = new File(filename);
             if (file.exists()) {
                 System.out.println("Введите разделитель полей, если файл с разделителями:");
@@ -270,11 +270,11 @@ public class Main {
      * Класс, реализующий поток
      */
     private static class ValueThread extends Thread {
-        private int[] number;// целочисленный массив для обработки
-        private int value;// значение, которое возвращается после обработки
-        private Function function;// функция, которая используется для обработки
+        private int[] number;               // целочисленный массив для обработки
+        private int value;                  // значение, которое возвращается после обработки
+        private Function function;          // функция, которая используется для обработки
 
-        public ValueThread() {
+        public ValueThread() {              // Конструктор
 
         }
 
@@ -308,13 +308,13 @@ public class Main {
 
         @Override
         public void run() {
-            int index = 0;// счётчик цикла
-            value = number[index];// первый элемент массива
+            int index = 0;                      // счётчик цикла
+            value = number[index];              // первый элемент массива
             while (index < (number.length - 1)) {
-                // цикл пока не достигнут конец массива
-                value = (int) function.operation(value, number[index + 1]);// вычисляем значение
+                                                // цикл пока не достигнут конец массива
+                value = (int) function.operation(value, number[index + 1]);                // вычисляем значение
                 if (index % 100 == 0) {
-                    // инфрмация о прогрессе
+                                                // инфрмация о прогрессе
                     System.out.println(Thread.currentThread().getName() + " обработано " + index + " элементов");
                 }
                 index++;// увеличиваем счётчик
